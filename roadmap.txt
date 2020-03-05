@@ -1,0 +1,19 @@
+Future functionalities : 
+
+-parse data (API) from .json to JS object
+-get key info from js objects 
+-display data in right form on the page
+-post data from page to mongoDB
+-update data on webpage 
+-delete data 
+-add search box to search in DB 
+
+
+
+===========================
+
+- add async data receiving (updates)
+- send email functionality 
+- send sms functionality 
+- prepere invoice to .pdf 
+
