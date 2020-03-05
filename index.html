@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <form action="http://localhost:3000/newblog" method="POST">
         
@@ -17,14 +18,31 @@
     <button type="submit">Send</button>
     
     </form>
+<button type="submit" onclick="recieve()">Recieve content</button>
+  
 
-    <form action="http://localhost:3000/getblogs" method="GET">
-        <textarea name="body" id="" cols="30" rows="10"></textarea>
+
+
     
-        <button type="submit">Get all posts</button>
-    </form>
     <script>
-
+        function recieve(){
+        axios.get('http://localhost:3000/getblogs', {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                Accept: 'application/json',
+			'Content-Type': 'application/json',
+            },
+            
+        })
+        .then((response) => {
+            console.log(response.data)
+            console.log(response.status);
+    console.log(response.statusText);
+    console.log(response.headers);
+    console.log(response.config);
+        })
+    }
+        
     </script>
     
 </body>

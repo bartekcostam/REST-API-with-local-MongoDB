@@ -4,7 +4,21 @@ const PORT = process.env.PORT || 3000
 const routes = require('./src/routes/crmRoutes')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
+app.use(cors({
+    origin: 'http://localhost:5500',
+    credentials: true
+  }));
+
+  var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+};
+
+app.use(allowCrossDomain);
 
 mongoose.connect('mongodb://localhost/test', {
     useNewUrlParser: true,
@@ -13,6 +27,7 @@ mongoose.connect('mongodb://localhost/test', {
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
+
 
 const BlogSchema = require('./src/models/crmModels')
 const blogModel = mongoose.model('blog', BlogSchema)
