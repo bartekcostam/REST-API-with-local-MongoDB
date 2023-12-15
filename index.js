@@ -24,4 +24,14 @@ app.post('/register', async(req, res) => {
     res.send(result)
 })
 
+app.get('/users', async(req, res) => {
+    try{
+        const users = await User.find(req.body)
+        res.json(users)
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
 app.listen(5000)
