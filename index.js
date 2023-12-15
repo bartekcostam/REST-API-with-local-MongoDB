@@ -31,7 +31,27 @@ app.get('/users', async(req, res) => {
     }
     catch(err){
         console.log(err)
+        res.status(500).json({message: err.message})
     }
+})
+
+app.get('/users/:id', async(req, res) =>{
+    const result = await User.findOne({_id:req.params.id})
+    if(result){
+        res.send(result)
+    }else{
+        res.send({result:"No Record found"})
+    }
+})
+
+app.put('/users/:id', async(req, res) =>{
+    const result = await User.updateOne({_id:req.params.id}, {$set:req.body})
+    res.send(result)
+})
+
+app.delete('/users/:id', async(req, res) => {
+    const result = await User.deleteOne({_id:req.params.id})
+    res.send(result)
 })
 
 app.listen(5000)
