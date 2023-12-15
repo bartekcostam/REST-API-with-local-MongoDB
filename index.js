@@ -1,83 +1,27 @@
-var express = require('express')
-const app = express()
-const PORT = process.env.PORT || 3000
-const routes = require('./src/routes/crmRoutes')
+const express = require('express');
 const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
+mongoose.connect("mongodb://127.0.0.1:27017/reg")
 
 
-mongoose.connect('mongodb://localhost/test', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+const app = express()
+app.use(express.json())
+
+
+const userShema = new mongoose.Schema({
+    name: String,
+    email: String,
+    password: String,
+    address: String
 })
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
+
+const User = new mongoose.model("users", userShema)
 
 
-const BlogSchema = require('./src/models/crmModels')
-const blogModel = mongoose.model('blog', BlogSchema)
-//app.use(function(req,res,next){
-//    console.log('time', Date.now());
-//})
-
-app.post('/newBlog', (req,res) => {
-    let blog = new blogModel(req.body)
-    blog.save((err,blogModel) => {
-        if(err){
-            res.send(err)
-        }
-        res.json(blog)
-    })
+app.post('/register', async(req, res) => {
+    let user = new User(req.body)
+    let result = await user.save()
+    res.send(result)
 })
-let getAllBlogs = (req, res)=>{
-    blogModel.find({}, (err, blogs) => {
-        if(err){
-        res.send(err)
-        }
-        else {
-            res.json(blogs)
-        }
-    })
-}
 
-app.get('/getBlogs', getAllBlogs)
-
-let getBlogByID = (req,res)=> {
-    blogModel.findById((req.params.blogId), (err, blog) => {
-        if (err){
-            res.send(err)
-        }
-        else {
-            res.json(blog)
-        }
-    })
-}
-app.get('/blog/:blogId',getBlogByID)
-
-
-let updateBlog = (req, res) => {
-    blogModel.findOneAndUpdate({_id: req.params.blogId}, req.body, {new: true}, (err, updateBlog)=> {
-        if (err ){
-            res.send(err)
-        }
-        res.json(updateBlog)
-    })
-}
-app.put('/blog/:blogId', updateBlog)
-
-let deleteBlog = (req,res) => {
-    blogModel.remove({_id: req.params.blogId}, (err) => {
-        if(err) {
-            res.send(err)
-        }
-        res.json({message: 'Blog has been deleted'})
-    })
-}
-app.delete('/blog/:blogId', deleteBlog)
-
-app.use(express.static('./src/public'))
-
-app.listen(PORT, () => {
-    console.log(`Server works on port ${PORT}`);
-})
+app.listen(5000)

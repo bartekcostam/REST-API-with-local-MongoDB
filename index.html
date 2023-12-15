@@ -1,62 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-
 <body>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-    <form action="http://localhost:3000/newblog" method="POST">
-
-        <input type="text" name="title"> title <br>
-        <input type="text" name="author"> author <br>
-        <input type="text" name="body"> body <br>
-        <br><br>
-        <button type="submit">Send</button>
-
-    </form>
-    <button type="submit" onclick="recieve()">Recieve content</button>
-
-
-    <ul id="people"></ul>
-
-
-    <script>
-        
-    
-        function recieve() {
-            axios.get('http://localhost:3000/getblogs', {
-                    headers: {
-                        'Access-Control-Allow-Origin': '*',
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-
-                })
-                .then((response) => {
-                    console.log(response.data)
-                    console.log(response.status);
-                    console.log(response.statusText);
-                    console.log(response.headers);
-                    console.log(response.config);
-                    
-                    
-                })
-        }
-        var output = ''
-        for (var i= 0; i<people.length; i++){
-            console.log(people[i].name)
-            output += '<li>' + people[i].name+'</li>'
-        }
-        document.getElementById('people').innerHTML = output
-
-    </script>
-
+    <h1>test page</h1>
 </body>
-
 </html>
